@@ -14,8 +14,8 @@ import java.util.logging.Logger;
 
 
 public class UserDaoJDBCImpl implements UserDao {
-
     private Connection connection = Util.getConnection();
+
     public static final Logger LOGGER;
     static {
         try(FileInputStream ins = new FileInputStream("src/main/resources/logger_config.properties")){
@@ -48,8 +48,8 @@ public class UserDaoJDBCImpl implements UserDao {
 
 
     public void dropUsersTable() {
-        String sql1 = "DROP TABLE IF EXISTS `user_schema`.`users`;"; // удалить таблицу
-//        String sql2 = "DROP DATABASE IF EXISTS`user_schema`;"; // удалит базу
+        String sql1 = "DROP TABLE IF EXISTS `user_schema`.`users`;"; // delete a table
+//        String sql2 = "DROP DATABASE IF EXISTS`user_schema`;"; // delete the database
         executeSql(connection, sql1);
         LOGGER.info("Finished;");
     }
@@ -105,7 +105,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
                 list.add(user);
             }
-//            System.out.println("\n\n\nlist.size() = " + list.size() + "\n\n\n");
         } catch (SQLException e) {
             LOGGER.warning("SQLException: \n" + Arrays.toString(e.getStackTrace()));
             e.printStackTrace();

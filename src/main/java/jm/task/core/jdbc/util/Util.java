@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 
 
 public class Util {
-
     private static Connection connection;
 
     public static final Logger LOGGER;
@@ -25,11 +24,6 @@ public class Util {
         LOGGER.setLevel(Level.ALL);
     }
 
-//    private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver"; // "org.h2.Driver"
-//    private static final String DB_URL = "jdbc:mysql://localhost:3306?serverTimezone=Europe/Moscow&useSSL=false"; // указываю, что SSL не будет использоваться и что часовым поясом будет московский часовой пояс
-////    private static final String DB_URL = "jdbc:mysql://localhost:3306"; // "jdbc:h2:~/test"
-//    private static final String DB_USER_NAME = "user";
-//    private static final String DB_USER_PASSWORD = "1234";
 
     public static Connection getConnection() {
         if (connection == null) {
@@ -42,11 +36,6 @@ public class Util {
                 LOGGER.warning("IOException: \n" + Arrays.toString(e.getStackTrace()));
                 e.printStackTrace();
             }
-//            try (InputStream inputStream = Util.class.getClassLoader().getResourceAsStream("database.properties")) {
-//                properties.load(inputStream);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
 
             final String driver = properties.getProperty("driver");
             LOGGER.config("driver: " + driver);
@@ -72,6 +61,7 @@ public class Util {
     }
 
 
+    // ***    Service methods    ***
     public static boolean isExistsTable() {
         boolean result = false;
         try (Statement statement = connection.createStatement()) {
