@@ -3,20 +3,33 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
+import java.io.FileInputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-public class UserDaoJDBCImpl implements UserDao {
-    private Connection connection = Util.getConnection();
-    public static final Logger LOGGER = Logger.getLogger(UserDaoJDBCImpl.class.getName()); // I use it for debugging
 
+public class UserDaoJDBCImpl implements UserDao {
+
+    private Connection connection = Util.getConnection();
+    public static final Logger LOGGER;
+    static {
+        try(FileInputStream ins = new FileInputStream("src/main/resources/logger_config.properties")){
+            LogManager.getLogManager().readConfiguration(ins);
+        } catch (Exception ignore){
+            ignore.printStackTrace();
+        }
+        LOGGER = Logger.getLogger(UserDaoJDBCImpl.class.getName()); // I use it for debugging
+        LOGGER.setLevel(Level.ALL);
+    }
 
 
     public UserDaoJDBCImpl() {
-        // NOP
+        LOGGER.info("Create UserDaoJDBCImpl is finished;");
     }
 
 
@@ -30,7 +43,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 "  `AGE` TINYINT NULL,\n" + // Целое число от -128 до 127 (без знака от 0 до 255). Размер хранения 1 байт.
                 "  PRIMARY KEY (`ID`));"; // создать таблицу
         executeSql(connection, sql1, sql2, sql3);
-        LOGGER.info("createUsersTable Finished.");
+        LOGGER.info("Finished;");
     }
 
 
@@ -38,14 +51,17 @@ public class UserDaoJDBCImpl implements UserDao {
         String sql1 = "DROP TABLE IF EXISTS `user_schema`.`users`;"; // удалить таблицу
 //        String sql2 = "DROP DATABASE IF EXISTS`user_schema`;"; // удалит базу
         executeSql(connection, sql1);
-        LOGGER.info("dropUsersTable Finished.");
+        LOGGER.info("Finished;");
     }
 
 
     public void saveUser(String name, String lastName, byte age) {
-        String sql = "INSERT INTO USERS (NAME, LAST_NAME, AGE) VALUES(?, ?, ?)"; // без ID
-//        String sql = "INSERT INTO USERS (ID, NAME, LAST_NAME, AGE) VALUES(?, ?, ?, ?)"; // по ID
+        if (!Util.isExistsTable()) {
+            LOGGER.info("An attempt to save the User to a non-existent table. Creating a table for the User;");
+            createUsersTable();
+        }
 
+        String sql = "INSERT INTO USERS (NAME, LAST_NAME, AGE) VALUES(?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
@@ -53,10 +69,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
             preparedStatement.execute();
         } catch (SQLException e) {
-            LOGGER.info("saveUser -> SQLException: \n" + Arrays.toString(e.getStackTrace()));
+            LOGGER.warning("SQLException: \n" + Arrays.toString(e.getStackTrace()));
             e.printStackTrace();
         }
-        LOGGER.info("saveUser Finished.");
+        LOGGER.info("Finished;");
     }
 
 
@@ -67,10 +83,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
             preparedStatement.execute();
         } catch (SQLException e) {
-            LOGGER.info("removeUserById -> SQLException: \n" + Arrays.toString(e.getStackTrace()));
+            LOGGER.warning("SQLException: \n" + Arrays.toString(e.getStackTrace()));
             e.printStackTrace();
         }
-        LOGGER.info("removeUserById Finished.");
+        LOGGER.info("Finished;");
     }
 
 
@@ -90,12 +106,11 @@ public class UserDaoJDBCImpl implements UserDao {
                 list.add(user);
             }
 //            System.out.println("\n\n\nlist.size() = " + list.size() + "\n\n\n");
-            LOGGER.info("getAllUsers Finished.");
         } catch (SQLException e) {
-            LOGGER.info("getAllUsers -> SQLException: \n" + Arrays.toString(e.getStackTrace()));
+            LOGGER.warning("SQLException: \n" + Arrays.toString(e.getStackTrace()));
             e.printStackTrace();
         }
-
+        LOGGER.info("Finished;");
         return list;
     }
 
@@ -103,7 +118,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void cleanUsersTable() {
         String sql = "TRUNCATE `user_schema`.`users`;";
         executeSql(connection, sql);
-        LOGGER.info("cleanUsersTable Finished.");
+        LOGGER.info("Finished;");
     }
 
 
@@ -113,6 +128,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 statement.execute(sql);
             }
         } catch (SQLException e) {
+            LOGGER.warning("SQLException: \n" + Arrays.toString(e.getStackTrace()));
             e.printStackTrace();
         }
     }

@@ -11,9 +11,6 @@ import java.util.logging.SimpleFormatter;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        Util.LOGGER.setLevel(Level.ALL);
-        UserDaoJDBCImpl.LOGGER.setLevel(Level.ALL);
-
 
         UserDaoJDBCImpl userDaoJDBC = new UserDaoJDBCImpl();
 
@@ -29,13 +26,10 @@ public class Main {
         userDaoJDBC.removeUserById(1);
         userDaoJDBC.getAllUsers().forEach(System.out::println);
 
-//        System.out.println();
-//        userDaoJDBC.cleanUsersTable();
-//        userDaoJDBC.getAllUsers().forEach(System.out::println);
-//
-//        userDaoJDBC.dropUsersTable();
+        System.out.println();
+        userDaoJDBC.cleanUsersTable();
+        userDaoJDBC.getAllUsers().forEach(System.out::println);
 
-//        UserDaoJDBCImpl.LOGGER.setFormatter(new SimpleFormatter()););
-//        System.out.println(UserDaoJDBCImpl.LOGGER.);
+        userDaoJDBC.dropUsersTable();
     }
 }
