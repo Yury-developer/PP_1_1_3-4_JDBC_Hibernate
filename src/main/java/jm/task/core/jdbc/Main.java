@@ -14,9 +14,6 @@ public class Main {
 
         UserDaoJDBCImpl userDaoJDBC = new UserDaoJDBCImpl();
 
-        userDaoJDBC.cleanUsersTable();
-        userDaoJDBC.saveUser("Имя -not added", "Фамилия -not added", (byte) 99);
-
         userDaoJDBC.createUsersTable();
 
         userDaoJDBC.saveUser("Имя delete", "Фамилия delete", (byte) 1);

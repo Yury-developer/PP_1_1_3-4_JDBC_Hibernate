@@ -16,15 +16,23 @@ import java.util.logging.Logger;
 public class UserDaoJDBCImpl implements UserDao {
     private Connection connection = Util.getConnection();
 
-    public static final Logger LOGGER;
+    private static final Logger LOGGER;
+
     static {
-        try(FileInputStream ins = new FileInputStream("src/main/resources/logger_config.properties")){
+//        System.setProperty("java.util.logging.config.file","src/main/resources/logger_UserDaoJDBCImpl_config.properties");
+
+        try (FileInputStream ins = new FileInputStream("src/main/resources/logger_UserDaoJDBCImpl_config.properties")) {
             LogManager.getLogManager().readConfiguration(ins);
-        } catch (Exception ignore){
+        } catch (Exception ignore) {
             ignore.printStackTrace();
         }
         LOGGER = Logger.getLogger(UserDaoJDBCImpl.class.getName()); // I use it for debugging
-        LOGGER.setLevel(Level.ALL);
+        LOGGER.setLevel(Level.FINE);
+//        LOGGER.setUseParentHandlers(false); // отключаем вывод в консоль
+
+        LOGGER.fine("test LOGGER, Level.FINE");
+        LOGGER.info("test LOGGER, Level.INFO");
+        LOGGER.severe("test LOGGER, Level.SEVERE");
     }
 
 
@@ -95,7 +103,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
         List<User> list = new ArrayList<>();
         try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)){
+             ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("ID"));
@@ -121,10 +129,12 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
 
-    private static void executeSql(Connection connection, String... strings) {
-        try (Statement statement = connection.createStatement()){
-            for (String sql: strings) {
+    private static void executeSql(Connection connection, String... sqls) {
+        try (Statement statement = connection.createStatement()) {
+            for (String sql : sqls) {
                 statement.execute(sql);
+//                LOGGER.log(Level.SEVERE, sql + "Finished;");
+                LOGGER.fine(sql + "Finished;");
             }
         } catch (SQLException e) {
             LOGGER.warning("SQLException: \n" + Arrays.toString(e.getStackTrace()));
