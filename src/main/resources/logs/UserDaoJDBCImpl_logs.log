@@ -1,0 +1,3 @@
+2024-04-08 00:10:31 FINE jm.task.core.jdbc.dao.UserDaoJDBCImpl <clinit> test LOGGER, Level.FINE
+2024-04-08 00:10:31 INFO jm.task.core.jdbc.dao.UserDaoJDBCImpl <clinit> test LOGGER, Level.INFO
+2024-04-08 00:10:31 SEVERE jm.task.core.jdbc.dao.UserDaoJDBCImpl <clinit> test LOGGER, Level.SEVERE
