@@ -14,30 +14,24 @@ import java.util.logging.Logger;
 
 
 public class UserDaoJDBCImpl implements UserDao {
-    private Connection connection = Util.getConnection();
+    private final Connection connection = Util.getConnection();
 
     private static final Logger LOGGER;
 
     static {
-//        System.setProperty("java.util.logging.config.file","src/main/resources/logger_UserDaoJDBCImpl_config.properties");
-
         try (FileInputStream ins = new FileInputStream("src/main/resources/logger_UserDaoJDBCImpl_config.properties")) {
             LogManager.getLogManager().readConfiguration(ins);
         } catch (Exception ignore) {
             ignore.printStackTrace();
         }
-        LOGGER = Logger.getLogger(UserDaoJDBCImpl.class.getName()); // I use it for debugging
+        LOGGER = Logger.getLogger(UserDaoJDBCImpl.class.getName());
         LOGGER.setLevel(Level.FINE);
-//        LOGGER.setUseParentHandlers(false); // отключаем вывод в консоль
-
-        LOGGER.fine("test LOGGER, Level.FINE");
-        LOGGER.info("test LOGGER, Level.INFO");
-        LOGGER.severe("test LOGGER, Level.SEVERE");
+        LOGGER.setUseParentHandlers(false); // отключаем вывод в консоль
     }
 
 
     public UserDaoJDBCImpl() {
-        LOGGER.info("Create UserDaoJDBCImpl is finished;");
+        // NOP
     }
 
 
@@ -48,16 +42,15 @@ public class UserDaoJDBCImpl implements UserDao {
                 "  `ID` BIGINT NOT NULL AUTO_INCREMENT,\n" +
                 "  `NAME` VARCHAR(45) NULL,\n" +
                 "  `LAST_NAME` VARCHAR(45) NULL,\n" +
-                "  `AGE` TINYINT NULL,\n" + // Целое число от -128 до 127 (без знака от 0 до 255). Размер хранения 1 байт.
-                "  PRIMARY KEY (`ID`));"; // создать таблицу
+                "  `AGE` TINYINT NULL,\n" +
+                "  PRIMARY KEY (`ID`));";
         executeSql(connection, sql1, sql2, sql3);
         LOGGER.info("Finished;");
     }
 
 
     public void dropUsersTable() {
-        String sql1 = "DROP TABLE IF EXISTS `user_schema`.`users`;"; // delete a table
-//        String sql2 = "DROP DATABASE IF EXISTS`user_schema`;"; // delete the database
+        String sql1 = "DROP TABLE IF EXISTS `user_schema`.`users`;";
         executeSql(connection, sql1);
         LOGGER.info("Finished;");
     }
@@ -129,12 +122,11 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
 
+    // *** service ***
     private static void executeSql(Connection connection, String... sqls) {
         try (Statement statement = connection.createStatement()) {
             for (String sql : sqls) {
                 statement.execute(sql);
-//                LOGGER.log(Level.SEVERE, sql + "Finished;");
-                LOGGER.fine(sql + "Finished;");
             }
         } catch (SQLException e) {
             LOGGER.warning("SQLException: \n" + Arrays.toString(e.getStackTrace()));

@@ -9,24 +9,21 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import static java.lang.String.*;
+
 
 public class Util {
     private static Connection connection;
 
     private static final Logger LOGGER;
     static {
-//        System.setProperty("java.util.logging.config.file","src/main/resources/logger_Util_config.properties");
         try(FileInputStream ins = new FileInputStream("src/main/resources/logger_Util_config.properties")){
             LogManager.getLogManager().readConfiguration(ins);
         } catch (Exception ignore){
             ignore.printStackTrace();
         }
-        LOGGER = Logger.getLogger(Util.class.getName()); // I use it for debugging
+        LOGGER = Logger.getLogger(Util.class.getName());
         LOGGER.setLevel(Level.FINE);
-
-        LOGGER.fine("test LOGGER, Level.FINE");
-        LOGGER.info("test LOGGER, Level.INFO");
-        LOGGER.severe("test LOGGER, Level.SEVERE");
     }
 
 
@@ -43,13 +40,10 @@ public class Util {
             }
 
             final String driver = properties.getProperty("driver");
-            LOGGER.config("driver: " + driver);
             final String url = properties.getProperty("url");
-            LOGGER.config("url: " + url);
             final String username = properties.getProperty("username");
-            LOGGER.config("username: " + username);
             final String password = properties.getProperty("password");
-            LOGGER.config("password: " + password);
+            LOGGER.config(format("\tdriver:%s\n\turl:%s\n\tusername:%s\n\tpassword:%s", driver, url, username, password));
 
             try {
                 Class.forName(driver);
@@ -59,9 +53,7 @@ public class Util {
                         + Arrays.toString(e.getStackTrace()));
                 e.printStackTrace();
             }
-            LOGGER.fine("Connection is created!");
         }
-        LOGGER.info("Finished;");
         return connection;
     }
 

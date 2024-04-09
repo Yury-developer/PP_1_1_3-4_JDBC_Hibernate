@@ -22,6 +22,7 @@ public class User {
 
     }
 
+
     public User(String name, String lastName, Byte age) {
         this.name = name;
         this.lastName = lastName;
@@ -31,6 +32,7 @@ public class User {
     public Long getId() {
         return id;
     }
+
 
     public void setId(Long id) {
         this.id = id;
@@ -60,7 +62,6 @@ public class User {
         this.age = age;
     }
 
-    // это удалить
 
     @Override
     public String toString() {
