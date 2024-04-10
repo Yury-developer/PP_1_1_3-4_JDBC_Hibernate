@@ -1,7 +1,10 @@
 package jm.task.core.jdbc.util;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.Properties;
@@ -16,10 +19,11 @@ public class Util {
     private static Connection connection;
 
     private static final Logger LOGGER;
+
     static {
-        try(FileInputStream ins = new FileInputStream("src/main/resources/logger_Util_config.properties")){
+        try (FileInputStream ins = new FileInputStream("src/main/resources/logger_Util_config.properties")) {
             LogManager.getLogManager().readConfiguration(ins);
-        } catch (Exception ignore){
+        } catch (Exception ignore) {
             ignore.printStackTrace();
         }
         LOGGER = Logger.getLogger(Util.class.getName());
@@ -29,8 +33,8 @@ public class Util {
 
     public static Connection getConnection() {
         if (connection == null) {
-            Properties properties = new Properties();
 
+            Properties properties = new Properties();
             try (Reader reader = new InputStreamReader(
                     new FileInputStream("src/main/resources/database.properties"), StandardCharsets.UTF_8)) {
                 properties.load(reader);
@@ -38,6 +42,8 @@ public class Util {
                 LOGGER.warning("IOException: " + Arrays.toString(e.getStackTrace()));
                 e.printStackTrace();
             }
+
+//            Properties properties = getProperties(); // you can put it in a separate method
 
             final String driver = properties.getProperty("driver");
             final String url = properties.getProperty("url");
@@ -74,5 +80,21 @@ public class Util {
             e.printStackTrace();
         }
         return result;
+    }
+
+    private static Properties getProperties() {
+        Properties properties = new Properties();
+        try (InputStream in = Files
+                .newInputStream(
+                        Paths.get(Util.class.getResource("/database.properties").toURI())
+                )
+        ) {
+            properties.load(in);
+        } catch (IOException | URISyntaxException e) {
+            LOGGER.warning("Database config file not found (IOException or URISyntaxException) "
+                    + Arrays.toString(e.getStackTrace()));
+            e.printStackTrace();
+        }
+        return properties;
     }
 }

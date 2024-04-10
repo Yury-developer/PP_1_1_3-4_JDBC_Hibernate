@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public class UserServiceImpl implements UserService {
-    private final UserDao daoJDBC = new UserDaoJDBCImpl();
+    private final UserDao userDaoJDBC = new UserDaoJDBCImpl();
 
 
     public void createUsersTable() {
@@ -15,22 +15,22 @@ public class UserServiceImpl implements UserService {
     }
 
     public void dropUsersTable() {
-        daoJDBC.dropUsersTable();
+        userDaoJDBC.dropUsersTable();
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        daoJDBC.saveUser(name, lastName, age);
+        userDaoJDBC.saveUser(name, lastName, age);
     }
 
     public void removeUserById(long id) {
-        daoJDBC.removeUserById(id);
+        userDaoJDBC.removeUserById(id);
     }
 
     public List<User> getAllUsers() {
-        return daoJDBC.getAllUsers();
+        return userDaoJDBC.getAllUsers();
     }
 
     public void cleanUsersTable() {
-        daoJDBC.cleanUsersTable();
+        userDaoJDBC.cleanUsersTable();
     }
 }

@@ -47,5 +47,16 @@
 ---
 
 
+# записки по теме
 
+[Hibernate для начинающих
+](https://habr.com/ru/articles/320542/)
 
+[Hibernate — быстрый старт. Пример приложения Hibernate 5 Hello World
+](https://javastudy.ru/hibernate/hibernate-quick-start/)
+
+[Ваше первое приложение на Hibernate
+](https://javarush.com/groups/posts/hibernate-java)
+
+[Руководство по Hibernate. Пример простого приложения.
+](https://proselyte.net/tutorials/hibernate-tutorial/simple-application/)
