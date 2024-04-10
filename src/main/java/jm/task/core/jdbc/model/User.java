@@ -1,5 +1,7 @@
 package jm.task.core.jdbc.model;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,12 +13,15 @@ public class User {
     private Long id;
 
     @Column(name = "name")
+    @ColumnDefault("'Unknown name'") // при создании таблицы умолчанием ставлю 'Unknown name'
     private String name;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
+    @ColumnDefault("'Unknown lastName'") // при создании таблицы умолчанием ставлю 'Unknown lastName'
     private String lastName;
 
     @Column(name = "age")
+    @ColumnDefault("0") // при создании таблицы умолчанием ставлю '-1'
     private Byte age;
 
     public User() {
