@@ -21,7 +21,7 @@ public class User {
     private String lastName;
 
     @Column(name = "age")
-    @ColumnDefault("0") // при создании таблицы умолчанием ставлю '-1'
+    @ColumnDefault("0") // при создании таблицы умолчанием ставлю '0'
     private Byte age;
 
     public User() {

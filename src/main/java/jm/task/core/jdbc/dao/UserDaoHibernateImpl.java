@@ -1,30 +1,16 @@
 package jm.task.core.jdbc.dao;
 
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.HibernateUtil;
-import jm.task.core.jdbc.util.Util;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.cfg.Environment;
-import org.hibernate.service.ServiceRegistry;
-import java.sql.Connection;
-import java.util.Properties;
 
 
 public class UserDaoHibernateImpl implements UserDao {
 
-//    private Connection connection = HibernateUtil.getConnection();
-
-
     public UserDaoHibernateImpl() {
-//        this.sessionFactory = sessionFactory;
+        // NOP
     }
 
 
@@ -42,17 +28,17 @@ public class UserDaoHibernateImpl implements UserDao {
             ).executeUpdate();
 
             session.createSQLQuery(
-//                    "CREATE TABLE IF NOT EXISTS `user_schema`.`users` (\n" +
                     "CREATE TABLE IF NOT EXISTS users (" +
                             "  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
                             "  name VARCHAR(45) DEFAULT 'Unknown name'," +
                             "  last_name VARCHAR(45) DEFAULT 'Unknown lastName'," +
-                            "  age TINYINT DEFAULT -1)" +
+                            "  age TINYINT DEFAULT 0)" +
                             " ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
             ).executeUpdate();
             transaction.commit();
         }
     }
+
 
     @Override
     public void dropUsersTable() {
@@ -64,9 +50,8 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
 
-    // ok
     @Override
-    public void saveUser(String name, String lastName, byte age) { // проверено   https://dzone.com/articles/hibernate-5-java-configuration-example
+    public void saveUser(String name, String lastName, byte age) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
@@ -96,13 +81,14 @@ public class UserDaoHibernateImpl implements UserDao {
         }
     }
 
-    // ok
+
     @Override
-    public List<User> getAllUsers() { // проверено   https://dzone.com/articles/hibernate-5-java-configuration-example
+    public List<User> getAllUsers() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery("FROM User", User.class).list();
         }
     }
+
 
     @Override
     public void cleanUsersTable() {
