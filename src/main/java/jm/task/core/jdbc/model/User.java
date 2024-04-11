@@ -1,25 +1,31 @@
 package jm.task.core.jdbc.model;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.ColumnDefault;
 
-@Table
+import javax.persistence.*;
+
+@Entity
+@Table (name = "users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column
+    @Column(name = "name")
+    @ColumnDefault("'Unknown name'") // при создании таблицы умолчанием ставлю 'Unknown name'
     private String name;
 
-    @Column
+    @Column(name = "last_name")
+    @ColumnDefault("'Unknown lastName'") // при создании таблицы умолчанием ставлю 'Unknown lastName'
     private String lastName;
 
-    @Column
+    @Column(name = "age")
+    @ColumnDefault("0") // при создании таблицы умолчанием ставлю '0'
     private Byte age;
 
     public User() {
-
+        // NOP
     }
 
 
