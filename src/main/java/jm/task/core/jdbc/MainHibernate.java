@@ -27,6 +27,6 @@ public class MainHibernate {
         userDao.removeUserById(1);
 
         // Очистка таблицы пользователей
-        userDao.cleanUsersTable();
+//        userDao.cleanUsersTable();
     }
 }

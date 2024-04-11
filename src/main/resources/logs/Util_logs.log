@@ -1,4 +1,4 @@
-2024-04-10 19:23:07 CONFIG jm.task.core.jdbc.util.Util getConnection 	driver:com.mysql.cj.jdbc.Driver
+2024-04-11 08:42:40 CONFIG jm.task.core.jdbc.util.Util getConnection 	driver:com.mysql.cj.jdbc.Driver
 	url:jdbc:mysql://localhost:3306?serverTimezone=Europe/Moscow&useSSL=false
 	username:user
 	password:1234

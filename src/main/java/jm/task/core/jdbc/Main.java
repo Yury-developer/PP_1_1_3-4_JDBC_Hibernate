@@ -26,10 +26,10 @@ public class Main {
         userDaoJDBC.removeUserById(1);
         userDaoJDBC.getAllUsers().forEach(System.out::println);
 
-        System.out.println();
-        userDaoJDBC.cleanUsersTable();
-        userDaoJDBC.getAllUsers().forEach(System.out::println);
-
-        userDaoJDBC.dropUsersTable();
+//        System.out.println();
+//        userDaoJDBC.cleanUsersTable();
+//        userDaoJDBC.getAllUsers().forEach(System.out::println);
+//
+//        userDaoJDBC.dropUsersTable();
     }
 }

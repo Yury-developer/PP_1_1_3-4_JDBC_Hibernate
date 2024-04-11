@@ -37,14 +37,14 @@ public class UserDaoJDBCImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        String sql1 = "CREATE SCHEMA IF NOT EXISTS `user_schema` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;"; // создать базу
-        String sql2 = "USE `user_schema`;"; // использовать
-        String sql3 = "CREATE TABLE IF NOT EXISTS `user_schema`.`users` (\n" +
-                "  `ID` BIGINT NOT NULL AUTO_INCREMENT,\n" +
-                "  `NAME` VARCHAR(45) NULL,\n" +
-                "  `LAST_NAME` VARCHAR(45) NULL,\n" +
-                "  `AGE` TINYINT NULL,\n" +
-                "  PRIMARY KEY (`ID`));";
+        String sql1 = "CREATE SCHEMA IF NOT EXISTS `user_schema` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;";
+        String sql2 = "USE `user_schema`;";
+        String sql3 = "CREATE TABLE IF NOT EXISTS users (" +
+                "  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
+                "  name VARCHAR(45) DEFAULT 'Unknown name'," +
+                "  last_name VARCHAR(45) DEFAULT 'Unknown lastName'," +
+                "  age TINYINT DEFAULT 0)" +
+                " ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
         executeSql(connection, sql1, sql2, sql3);
         LOGGER.info("Finished;");
     }
