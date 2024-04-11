@@ -1,13 +1,8 @@
 package jm.task.core.jdbc;
 
 import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
-import jm.task.core.jdbc.util.Util;
-
 import java.sql.SQLException;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.SimpleFormatter;
+
 
 public class Main {
     public static void main(String[] args) throws SQLException {
@@ -26,10 +21,10 @@ public class Main {
         userDaoJDBC.removeUserById(1);
         userDaoJDBC.getAllUsers().forEach(System.out::println);
 
-//        System.out.println();
-//        userDaoJDBC.cleanUsersTable();
-//        userDaoJDBC.getAllUsers().forEach(System.out::println);
-//
-//        userDaoJDBC.dropUsersTable();
+        System.out.println();
+        userDaoJDBC.cleanUsersTable();
+        userDaoJDBC.getAllUsers().forEach(System.out::println);
+
+        userDaoJDBC.dropUsersTable();
     }
 }
