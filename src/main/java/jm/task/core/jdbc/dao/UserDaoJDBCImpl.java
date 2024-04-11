@@ -35,6 +35,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
 
+    @Override
     public void createUsersTable() {
         String sql1 = "CREATE SCHEMA IF NOT EXISTS `user_schema` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;"; // создать базу
         String sql2 = "USE `user_schema`;"; // использовать
@@ -49,6 +50,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
 
+    @Override
     public void dropUsersTable() {
         String sql1 = "DROP TABLE IF EXISTS `user_schema`.`users`;";
         executeSql(connection, sql1);
@@ -56,6 +58,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
 
+    @Override
     public void saveUser(String name, String lastName, byte age) {
         if (!Util.isExistsTable()) {
             LOGGER.info("An attempt to save the User to a non-existent table. Creating a table for the User;");
@@ -77,6 +80,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
 
+    @Override
     public void removeUserById(long id) {
         String sql = "DELETE FROM `user_schema`.`users` WHERE ID = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -91,6 +95,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
 
+    @Override
     public List<User> getAllUsers() {
         String sql = "SELECT * FROM `user_schema`.`users`;";
 
@@ -115,6 +120,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
 
+    @Override
     public void cleanUsersTable() {
         String sql = "TRUNCATE `user_schema`.`users`;";
         executeSql(connection, sql);
