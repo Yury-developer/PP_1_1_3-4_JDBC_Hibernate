@@ -1,10 +1,7 @@
 package jm.task.core.jdbc.dao;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Arrays;
 import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -24,49 +21,24 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        Transaction transaction = null;
-        try (Session session = SESSION_FACTORY.openSession()) {
-            transaction = session.beginTransaction();
-
-            session.createSQLQuery(
-                    "CREATE SCHEMA IF NOT EXISTS `user_schema` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;"
-            ).executeUpdate();
-
-            session.createSQLQuery(
-                    "USE `user_schema`;"
-            ).executeUpdate();
-
-            session.createSQLQuery(
-                    "CREATE TABLE IF NOT EXISTS users (" +
-                            "  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
-                            "  name VARCHAR(45) DEFAULT 'Unknown name'," +
-                            "  last_name VARCHAR(45) DEFAULT 'Unknown lastName'," +
-                            "  age TINYINT DEFAULT 0)" +
-                            " ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
-            ).executeUpdate();
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
+        String[] hqls = {
+                "CREATE SCHEMA IF NOT EXISTS `user_schema` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;",
+                "USE `user_schema`;",
+                "CREATE TABLE IF NOT EXISTS users (" +
+                        "  id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY," +
+                        "  name VARCHAR(45) DEFAULT 'Unknown name'," +
+                        "  last_name VARCHAR(45) DEFAULT 'Unknown lastName'," +
+                        "  age TINYINT DEFAULT 0)" +
+                        " ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
+        };
+        executeHql(hqls);
     }
 
 
     @Override
     public void dropUsersTable() {
-        Transaction transaction = null;
-        try (Session session = SESSION_FACTORY.openSession()) {
-            transaction = session.beginTransaction();
-            session.createSQLQuery("DROP TABLE IF EXISTS `user_schema`.`users`;").executeUpdate();
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
+        String hql = "DROP TABLE IF EXISTS `user_schema`.`users`;";
+        executeHql(hql);
     }
 
 
@@ -119,10 +91,22 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
+        String hql = "DELETE FROM Users";
+        executeHql(hql);
+    }
+
+
+
+    // *** service ***
+    private static void executeHql(String... hqls) {
         Transaction transaction = null;
         try (Session session = SESSION_FACTORY.openSession()) {
             transaction = session.beginTransaction();
-            session.createQuery("DELETE FROM User").executeUpdate();
+
+            for (String hql: hqls) {
+                session.createSQLQuery(hql).executeUpdate();
+            }
+
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -131,6 +115,4 @@ public class UserDaoHibernateImpl implements UserDao {
             e.printStackTrace();
         }
     }
-
-
 }
