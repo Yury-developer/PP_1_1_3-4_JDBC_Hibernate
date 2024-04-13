@@ -36,6 +36,8 @@ public class UserDaoHibernateImpl implements UserDao {
                             " ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;"
             ).executeUpdate();
             transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -46,6 +48,8 @@ public class UserDaoHibernateImpl implements UserDao {
             Transaction transaction = session.beginTransaction();
             session.createSQLQuery("DROP TABLE IF EXISTS `user_schema`.`users`;").executeUpdate();
             transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -75,15 +79,21 @@ public class UserDaoHibernateImpl implements UserDao {
                 session.delete(user);
             }
             transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
 
     @Override
     public List<User> getAllUsers() {
+        List<User> userList = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM User", User.class).list();
+            userList = session.createQuery("FROM User", User.class).list();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return userList;
     }
 
 
@@ -93,6 +103,8 @@ public class UserDaoHibernateImpl implements UserDao {
             Transaction transaction = session.beginTransaction();
             session.createQuery("DELETE FROM User").executeUpdate();
             transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
