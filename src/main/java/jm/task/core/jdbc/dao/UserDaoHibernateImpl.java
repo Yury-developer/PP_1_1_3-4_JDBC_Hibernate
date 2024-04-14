@@ -33,18 +33,15 @@ public class UserDaoHibernateImpl implements UserDao {
                         " ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
     }
 
-
     @Override
     public void dropUsersTable() {
         executeHql("DROP TABLE IF EXISTS `user_schema`.`users`;");
     }
 
-
     @Override
     public void saveUser(String name, String lastName, byte age) {
         executeInTransaction(session -> session.save(new User(name, lastName, age)));
     }
-
 
     @Override
     public void removeUserById(long id) {
@@ -56,12 +53,10 @@ public class UserDaoHibernateImpl implements UserDao {
         });
     }
 
-
     @Override
     public List<User> getAllUsers() {
         return executeAndReturn(session -> session.createQuery("FROM User", User.class).list());
     }
-
 
     @Override
     public void cleanUsersTable() {
@@ -70,7 +65,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
 
 
-    // *** service ***
+    // *** services ***
     private static void executeHql(String... hqls) {
         executeInTransaction(session -> {
             for (String hql : hqls) {

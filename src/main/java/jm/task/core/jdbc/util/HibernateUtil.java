@@ -1,5 +1,6 @@
 package jm.task.core.jdbc.util;
 
+import java.io.File;
 import java.util.Properties;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -39,6 +40,14 @@ public class HibernateUtil {
                         .applySettings(configuration.getProperties()).build();
 
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
+
+
+//                Configuration configuration = new Configuration().configure("hibernate.properties");
+//                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+//                        .applySettings(configuration.getProperties()).build();
+//                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
             } catch (Exception e) {
                 System.err.println("\n\n\nException:   SessionFactory getSessionFactory\n\n");
                 e.printStackTrace();

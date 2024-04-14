@@ -12,11 +12,11 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = false, nullable = true, length = 255)
     @ColumnDefault("'Unknown name'") // при создании таблицы умолчанием ставлю 'Unknown name'
     private String name;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", unique = false, nullable = true, length = 255)
     @ColumnDefault("'Unknown lastName'") // при создании таблицы умолчанием ставлю 'Unknown lastName'
     private String lastName;
 
