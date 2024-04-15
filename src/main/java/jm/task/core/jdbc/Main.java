@@ -1,11 +1,15 @@
 package jm.task.core.jdbc;
 
 import jm.task.core.jdbc.dao.UserDao;
+import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
+import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 
-class Script {
-    protected static UserDao userDao;
+class Main {
+    protected static UserDao userDao = new UserDaoHibernateImpl();
+//    protected static UserDao userDao = new UserDaoJDBCImpl();
 
-    public static void run() {
+
+    public static void main(String[] args) {
 
         System.out.println("\n\t" + userDao.getClass().getSimpleName() + ": Создание таблицы");
         userDao.createUsersTable();

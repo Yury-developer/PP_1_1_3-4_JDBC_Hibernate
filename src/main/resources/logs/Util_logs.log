@@ -1,4 +1,1 @@
-2024-04-14 02:11:01 CONFIG jm.task.core.jdbc.util.Util getConnection 	driver:com.mysql.cj.jdbc.Driver
-	url:jdbc:mysql://localhost:3306?serverTimezone=Europe/Moscow&useSSL=false
-	username:user
-	password:1234
+2024-04-16 01:09:16 WARN org.hibernate.internal.SessionImpl createCriteria HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
