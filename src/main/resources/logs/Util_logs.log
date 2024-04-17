@@ -1,1 +1,13 @@
-2024-04-16 01:09:16 WARN org.hibernate.internal.SessionImpl createCriteria HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+2024-04-17 19:10:13 INFO org.hibernate.Version logVersion HHH000412: Hibernate ORM core version 5.6.3.Final
+2024-04-17 19:10:14 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager <clinit> HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-04-17 19:10:14 WARN org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2024-04-17 19:10:14 INFO org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/user_schema?serverTimezone=Europe/Moscow&useSSL=false]
+2024-04-17 19:10:14 INFO org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator HHH10001001: Connection properties: {password=****, user=user}
+2024-04-17 19:10:14 INFO org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator HHH10001003: Autocommit mode: false
+2024-04-17 19:10:14 INFO org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init> HHH000115: Hibernate connection pool size: 20 (min=1)
+2024-04-17 19:10:14 INFO org.hibernate.dialect.Dialect <init> HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2024-04-17 19:10:15 INFO org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@68c87fc3] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2024-04-17 19:10:15 WARN org.hibernate.internal.SessionImpl createCriteria HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+2024-04-17 19:10:15 WARN org.hibernate.internal.SessionImpl createCriteria HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+2024-04-17 19:10:15 WARN org.hibernate.internal.SessionImpl createCriteria HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+2024-04-17 19:10:15 INFO org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PoolState stop HHH10001008: Cleaning up connection pool [jdbc:mysql://localhost:3306/user_schema?serverTimezone=Europe/Moscow&useSSL=false]

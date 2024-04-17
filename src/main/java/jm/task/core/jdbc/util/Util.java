@@ -8,10 +8,7 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
 import java.io.*;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.Properties;
@@ -36,34 +33,6 @@ public class Util {
 
     private static SessionFactory sessionFactory; // for Hibernate
 
-
-    public static SessionFactory getSessionFactory() { // for Hibernate
-        if (sessionFactory == null) {
-            try {
-                Configuration configuration = new Configuration();
-                Properties properties = new Properties();
-                properties.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-                properties.put(Environment.URL, "jdbc:mysql://localhost:3306/user_schema?serverTimezone=Europe/Moscow&useSSL=false");
-                properties.put(Environment.USER, "user");
-                properties.put(Environment.PASS, "1234");
-                properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
-                properties.put(Environment.SHOW_SQL, "true");
-                properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-                properties.put(Environment.HBM2DDL_AUTO, "update"); // "create-drop" -сначала создаст потом удалит /  "update" -обновлял существующую схему / "validate" -проверял ее целостность без изменений
-                properties.put("hibernate.dialect.storage_engine", "innodb"); // Specify InnoDB storage engine
-                configuration.setProperties(properties);
-                configuration.addAnnotatedClass(User.class); // add JPA entity mapping class
-
-                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder() //  holds the services that Hibernate will need during bootstrapping and at runtime.
-                        .applySettings(configuration.getProperties()).build();
-                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            } catch (Exception e) {
-                System.err.println("\n\n\nException:   SessionFactory getSessionFactory\n\n");
-                e.printStackTrace();
-            }
-        }
-        return sessionFactory;
-    }
 
     public static Connection getConnection() { // for JDBC
         if (connection == null) {
@@ -99,6 +68,41 @@ public class Util {
 
 
 
+    public static SessionFactory getSessionFactory() { // for Hibernate
+        if (sessionFactory == null) {
+            try {
+                Configuration configuration = new Configuration();
+//                DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+                Properties properties = new Properties();
+                properties.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
+                properties.put(Environment.URL, "jdbc:mysql://localhost:3306/user_schema?serverTimezone=Europe/Moscow&useSSL=false");
+                properties.put(Environment.USER, "user");
+                properties.put(Environment.PASS, "1234");
+                properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5InnoDBDialect");
+                properties.put(Environment.SHOW_SQL, "true");
+                properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
+                properties.put(Environment.HBM2DDL_AUTO, "update"); // "create-drop" -сначала создаст потом удалит /  "update" -обновлял существующую схему / "validate" -проверял ее целостность без изменений
+                properties.put("hibernate.dialect.storage_engine", "innodb"); // Specify InnoDB storage engine
+                configuration.setProperties(properties);
+                configuration.addAnnotatedClass(User.class); // add JPA entity mapping class
+
+                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder() //  holds the services that Hibernate will need during bootstrapping and at runtime.
+                        .applySettings(configuration.getProperties()).build();
+                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+            } catch (Exception e) {
+                System.err.println("\n\n\nException:   SessionFactory getSessionFactory\n\n");
+                e.printStackTrace();
+            }
+        }
+        return sessionFactory;
+    }
+
+    public static void closeSessionFactory() {
+        if (Util.sessionFactory != null) {
+            Util.sessionFactory.close();
+        }
+    }
+
 
 
 
@@ -118,21 +122,5 @@ public class Util {
             e.printStackTrace();
         }
         return result;
-    }
-
-    private static Properties getProperties() {
-        Properties properties = new Properties();
-        try (InputStream in = Files
-                .newInputStream(
-                        Paths.get(Util.class.getResource("/database.properties").toURI())
-                )
-        ) {
-            properties.load(in);
-        } catch (IOException | URISyntaxException e) {
-            LOGGER.warning("Database config file not found (IOException or URISyntaxException) "
-                    + Arrays.toString(e.getStackTrace()));
-            e.printStackTrace();
-        }
-        return properties;
     }
 }

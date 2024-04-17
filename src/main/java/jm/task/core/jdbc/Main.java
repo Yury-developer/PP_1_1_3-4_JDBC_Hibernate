@@ -1,37 +1,39 @@
 package jm.task.core.jdbc;
 
-import jm.task.core.jdbc.dao.UserDao;
-import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
+import jm.task.core.jdbc.service.UserService;
+import jm.task.core.jdbc.service.UserServiceImpl;
+import jm.task.core.jdbc.util.Util;
 
 class Main {
-    protected static UserDao userDao = new UserDaoHibernateImpl();
-//    protected static UserDao userDao = new UserDaoJDBCImpl();
-
+    private static UserService userService = new UserServiceImpl();
 
     public static void main(String[] args) {
 
-        System.out.println("\n\t" + userDao.getClass().getSimpleName() + ": Создание таблицы");
-        userDao.createUsersTable();
+        try {
+            System.out.println("\n\t" + userService.getClass().getSimpleName() + ": Создание таблицы");
+            userService.createUsersTable();
 
-        System.out.println("\n\tСохранение пользователей в базу");
-        userDao.saveUser("Имя_for_delete", "Фамилия_for_delete", (byte) 1);
-        userDao.saveUser("Аня", "Анечкина", (byte) 11);
-        userDao.saveUser("Борис", "Бодич", (byte) 22);
-        userDao.saveUser("Вася", "Васечкин", (byte) 33);
+            System.out.println("\n\tСохранение пользователей в базу");
+            userService.saveUser("Имя_for_delete", "Фамилия_for_delete", (byte) 1);
+            userService.saveUser("Аня", "Анечкина", (byte) 11);
+            userService.saveUser("Борис", "Бодич", (byte) 22);
+            userService.saveUser("Вася", "Васечкин", (byte) 33);
 
-        System.out.println("\n\tПолучение всех пользователей из базы и вывод на экран");
-        userDao.getAllUsers().forEach(System.out::println);
+            System.out.println("\n\tПолучение всех пользователей из базы и вывод на экран");
+            userService.getAllUsers().forEach(System.out::println);
 
-        System.out.println("\n\tУдаление пользователя с идентификатором id=1 и вывод на экран");
-        userDao.removeUserById(1);
-        userDao.getAllUsers().forEach(System.out::println);
+            System.out.println("\n\tУдаление пользователя с идентификатором id=1 и вывод на экран");
+            userService.removeUserById(1);
+            userService.getAllUsers().forEach(System.out::println);
 
-        System.out.println("\n\tОчистка таблицы пользователей и вывод на экран");
-        userDao.cleanUsersTable();
-        userDao.getAllUsers().forEach(System.out::println);
+            System.out.println("\n\tОчистка таблицы пользователей и вывод на экран");
+            userService.cleanUsersTable();
+            userService.getAllUsers().forEach(System.out::println);
 
-        System.out.println("\n\tУдаление таблицы");
-        userDao.dropUsersTable();
+            System.out.println("\n\tУдаление таблицы");
+            userService.dropUsersTable();
+        } finally {
+            Util.closeSessionFactory();
+        }
     }
 }
